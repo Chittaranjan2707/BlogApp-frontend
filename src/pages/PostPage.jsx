@@ -192,10 +192,26 @@ const PostPage = () => {
         })
     }, [postId])
 
-    const printDate = (numbers) => {
-        return new Date(numbers).toLocaleDateString()
+    // const printDate = (numbers) => {
+    //     return new Date(numbers).toLocaleDateString()
+    // }
+    const printDate = (timestamp) => {
+        if (!timestamp) {
+            return 'Invalid Date';
+        }
+    
+        // Convert timestamp to milliseconds (if not already)
+        const date = new Date(timestamp);
+    
+        // Check if the date is valid
+        if (isNaN(date.getTime())) {
+            return 'Invalid Date';
+        }
+    
+        // Format the date as a locale date string
+        return date.toLocaleDateString();
     }
-
+    
     const submitPost = () => {
         if (!isLoggedIn()) {
             toast.error("Need to login first !!")
@@ -231,7 +247,8 @@ const PostPage = () => {
                         <Card className="mt-3 ps-2 border-0 shadow-sm">
                             {post && (
                                 <CardBody>
-                                    <CardText> Posted By <b>{post.user.name}</b> on <b>{printDate(post.addedDate)} </b> </CardText>
+                                    {/* <CardText> Posted By <b>{post.user.name}</b> on <b>{printDate(post.addedDate)} </b> </CardText> */}
+                                    <CardText>Posted By <b>{post.user.name}</b> on <b>{printDate(post.addDate)} </b></CardText>
                                     <CardText>
                                         <span className="text-muted">{post.category.categoryTitle}</span>
                                     </CardText>
